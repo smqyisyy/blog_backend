@@ -22,7 +22,9 @@ async function getMysql() {
 async function getBlogInfo(pageNum, pageSize) {
     const conn = await getMysql()
     const [rows, fields] = await conn.execute('select * from `blog_info` limit ?,?', [(pageNum - 1) * pageSize, pageSize]);
-    // console.log(rows);
+    rows.forEach(row => {
+        row.releaseDate=row.releaseDate.toLocaleDateString();
+    });
     return rows
 }
 /**
