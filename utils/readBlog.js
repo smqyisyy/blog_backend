@@ -2,6 +2,7 @@ const fs = require('fs/promises');
 const chokidar = require('chokidar');
 const path = require('path');
 const mdPath = path.join(__dirname, "../testBlogs")
+const matter = require('gray-matter'); // 使用 gray-matter 包来解析 YAML 前置信息块
 // 获取目录下全部文件
 async function getFileNames(dirPath) {
     let filenames = await fs.readdir(dirPath)
@@ -13,7 +14,19 @@ async function getFileNames(dirPath) {
 }
 // 获取文件全部内容
 async function getFileContent(filename) {
-    return await fs.readFile(filename, 'utf-8')
+    // 使用 gray-matter 解析 YAML 前置信息块
+    const data = await fs.readFile(filename, 'utf-8')
+    const frontMatter = matter(data);
+    // 提取元数据
+    const title = frontMatter.data.title;
+    const author = frontMatter.data.author;
+    const tags = frontMatter.data.tags;
+    const date = frontMatter.data.date;
+    console.log('标题:', title);
+    console.log('作者:', author);
+    console.log('标签:', tags);
+    console.log('日期:', date);
+    console.log('内容:', frontMatter.content);
 }
 
 // 监视目录是否添加或减少了文件
@@ -45,4 +58,5 @@ function watchDir(dirPath) {
     console.log(`正在监听目录: ${dirPath}`);
 }
 
-watchDir(mdPath)
+
+getFileContent(path.join(mdPath, 'Linux基础.md'));
