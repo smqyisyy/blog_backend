@@ -3,7 +3,7 @@ const mysql = require("mysql2/promise")
 const mysqlConfig = require("../config.json")
 // 单例模式
 // let connection = null
-const pool=mysql.createPool(mysqlConfig)
+const pool = mysql.createPool(mysqlConfig)
 async function getMysqlConnection() {
     // if (connection) {
     //     return connection
@@ -47,6 +47,11 @@ async function getBlogNum() {
     closeConnection(conn)
     return rows[0]
 }
+/**
+ * 
+ * @param {*} param
+ * 插入一篇博客
+ */
 async function addBlog({ blogTitle, imgUrl, releaseDate, tag, blogAuthor, blogContent }) {
     const conn = await getMysqlConnection()
     try {
