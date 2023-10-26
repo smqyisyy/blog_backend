@@ -1,3 +1,10 @@
+---
+blogAuthor: "John Doe" 
+categorie: "前端"
+releaseDate: "2023-10-25"
+imgUrl: "https://img2.baidu.com/it/u=3931907987,2932718337&fm=253&fmt=auto&app=138&f=JPEG?w=600&h=399"
+---
+
 # Vue3快速上手
 
 <img src="https://user-images.githubusercontent.com/499550/93624428-53932780-f9ae-11ea-8d16-af949e16a09f.png" style="width:200px" />

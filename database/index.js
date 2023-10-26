@@ -38,6 +38,20 @@ async function getBlogInfo(pageNum, pageSize) {
     return rows
 }
 /**
+ * 通过博客id获取对应内容
+ * @param {*} blogId 博客id
+ * @returns 
+ */
+async function getBlogInfoById(blogId = null) {
+    const conn = await getMysqlConnection()
+    const [rows, fields] = await conn.execute('select * from `blog_info` where `id`=?', [blogId]);
+    rows.forEach(row => {
+        row.releaseDate = row.releaseDate.toLocaleDateString();
+    });
+    closeConnection(conn)
+    return rows[0]
+}
+/**
  * 获取博客数量
  * @returns 
  */
@@ -52,18 +66,45 @@ async function getBlogNum() {
  * @param {*} param
  * 插入一篇博客
  */
-async function addBlog({ blogTitle, imgUrl, releaseDate, tag, blogAuthor, blogContent }) {
+async function addBlog({ blogTitle, imgUrl, releaseDate, categorie, blogAuthor, blogContent }) {
     const conn = await getMysqlConnection()
     try {
-        await conn.execute('insert into `blog_info` (`blogTitle`,`imgUrl`,`releaseDate`,`tag`,`blogAuthor`,`blogContent`) values(?,?,?,?,?,?)', [blogTitle, imgUrl, releaseDate, tag, blogAuthor, blogContent]);
+        await conn.execute('insert into `blog_info` (`blogTitle`,`imgUrl`,`releaseDate`,`categorie`,`blogAuthor`,`blogContent`) values(?,?,?,?,?,?)', [blogTitle, imgUrl, releaseDate, categorie, blogAuthor, blogContent]);
         closeConnection(conn)
     }
-    catch {
+    catch (e) {
+        console.log(e);
         throw new Error("插入数据失败")
     }
+}
+async function updateBlog({ blogTitle, imgUrl, releaseDate, categorie, blogAuthor, blogContent, }) {
+    const conn = await getMysqlConnection()
+    try {
+        await conn.execute('update `blog_info` set `imgUrl`=?,`releaseDate`=?,`categorie`=?,`blogAuthor`=?,`blogContent`=? where `blogTitle`=?', [imgUrl, releaseDate, categorie, blogAuthor, blogContent, blogTitle]);
+        closeConnection(conn)
+    }
+    catch (e) {
+        console.log(e);
+        throw new Error("更新数据失败")
+    }
+}
+async function deleteBlog(blogTitle) {
+    const conn = await getMysqlConnection()
+    try {
+        await conn.execute('delete from `blog_info` where `blogTitle`=?', [blogTitle]);
+        closeConnection(conn)
+    }
+    catch (e) {
+        console.log(e);
+        throw new Error("删除数据失败")
+    }
+
 }
 module.exports = {
     getBlogInfo,
     getBlogNum,
-    addBlog
+    addBlog,
+    updateBlog,
+    deleteBlog,
+    getBlogInfoById
 }

@@ -1,4 +1,4 @@
-const { getBlogNum, getBlogInfo } = require('../database/index.js');
+const { getBlogNum, getBlogInfo, getBlogInfoById } = require('../database/index.js');
 async function showBlogInfo(ctx) {
     const { totalBlog } = await getBlogNum()
     let pageSize = 6
@@ -17,7 +17,14 @@ async function showBlogInfo(ctx) {
         pageSize
     }
 }
-
+async function showBlogInfoById(ctx) {
+    const blogInfo = await getBlogInfoById(ctx.request.query.id)
+    ctx.body = {
+        data: blogInfo
+    }
+}
 module.exports = {
-    showBlogInfo
+    showBlogInfo,
+    showBlogInfoById
+
 }

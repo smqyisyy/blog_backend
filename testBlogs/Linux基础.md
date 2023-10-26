@@ -1,8 +1,8 @@
 ---
-title: "我的文章标题" 
-author: "John Doe" 
-tags: ["标签1", "标签2"] 
-date: "2023-10-25"
+blogAuthor: "John Doe" 
+categorie: "linux"
+releaseDate: "2023-10-25"
+imgUrl: "https://img2.baidu.com/it/u=3931907987,2932718337&fm=253&fmt=auto&app=138&f=JPEG?w=600&h=399"
 ---
 
 # 操作系统简介

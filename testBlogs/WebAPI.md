@@ -1,3 +1,10 @@
+---
+blogAuthor: "John Doe" 
+categorie: "前端"
+releaseDate: "2023-10-25"
+imgUrl: "https://img2.baidu.com/it/u=3931907987,2932718337&fm=253&fmt=auto&app=138&f=JPEG?w=600&h=399"
+---
+
 # WebAPI
 
 和标准库不同，WebAPI 是**浏览器**提供的一套 API，用于操作浏览器窗口和界面
