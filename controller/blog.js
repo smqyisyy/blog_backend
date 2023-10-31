@@ -1,4 +1,4 @@
-const { getBlogNum, getBlogInfo, getBlogInfoById } = require('../database/index.js');
+const { getBlogNum, getBlogInfo, getBlogInfoById, getBlogByCategory, getCategories, getBlogNumByCategory } = require('../database/index.js');
 async function showBlogInfo(ctx) {
     const { totalBlog } = await getBlogNum()
     let pageSize = 6
@@ -23,8 +23,33 @@ async function showBlogInfoById(ctx) {
         data: blogInfo
     }
 }
+async function showBlogByCategory(ctx) {
+    const { totalBlog } = await getBlogNumByCategory(ctx.request.query.category)
+    let pageSize = 6
+    let pageNum = 1
+    if (parseInt(ctx.request.query.pageSize)) {
+        pageSize = parseInt(ctx.request.query.pageSize)
+    }
+    if (parseInt(ctx.request.query.pageNum)) {
+        pageNum = parseInt(ctx.request.query.pageNum)
+    }
+    const data = await getBlogByCategory(ctx.request.query.category, pageNum, pageSize)
+    ctx.body = {
+        data,
+        totalBlog,
+        pageNum,
+        pageSize
+    }
+}
+async function showCategories(ctx) {
+    const data = await getCategories()
+    ctx.body = {
+        data
+    }
+}
 module.exports = {
     showBlogInfo,
-    showBlogInfoById
-
+    showBlogInfoById,
+    showBlogByCategory,
+    showCategories
 }

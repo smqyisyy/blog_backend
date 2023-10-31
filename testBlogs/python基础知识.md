@@ -1,6 +1,6 @@
 ---
 blogAuthor: "John Doe" 
-categorie: "python"
+category: "python"
 releaseDate: "2023-10-25"
 imgUrl: "https://img2.baidu.com/it/u=3931907987,2932718337&fm=253&fmt=auto&app=138&f=JPEG?w=600&h=399"
 ---

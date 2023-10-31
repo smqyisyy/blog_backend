@@ -52,7 +52,7 @@ async function getBlogInfoById(blogId = null) {
     return rows[0]
 }
 /**
- * 获取博客数量
+ * 获取全部博客数量
  * @returns 
  */
 async function getBlogNum() {
@@ -66,28 +66,38 @@ async function getBlogNum() {
  * @param {*} param
  * 插入一篇博客
  */
-async function addBlog({ blogTitle, imgUrl, releaseDate, categorie, blogAuthor, blogContent }) {
+async function addBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor, blogContent }) {
     const conn = await getMysqlConnection()
     try {
-        await conn.execute('insert into `blog_info` (`blogTitle`,`imgUrl`,`releaseDate`,`categorie`,`blogAuthor`,`blogContent`) values(?,?,?,?,?,?)', [blogTitle, imgUrl, releaseDate, categorie, blogAuthor, blogContent]);
+        await conn.execute('insert into `blog_info` (`blogTitle`,`imgUrl`,`releaseDate`,`category`,`blogAuthor`,`blogContent`) values(?,?,?,?,?,?)', [blogTitle, imgUrl, releaseDate, category, blogAuthor, blogContent]);
         closeConnection(conn)
     }
     catch (e) {
         console.log(e);
-        throw new Error("插入数据失败")
+        // throw new Error("插入数据失败")
     }
 }
-async function updateBlog({ blogTitle, imgUrl, releaseDate, categorie, blogAuthor, blogContent, }) {
+/**
+ * 
+ * @param {*} param
+ * 更新博客
+ */
+async function updateBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor, blogContent }) {
     const conn = await getMysqlConnection()
     try {
-        await conn.execute('update `blog_info` set `imgUrl`=?,`releaseDate`=?,`categorie`=?,`blogAuthor`=?,`blogContent`=? where `blogTitle`=?', [imgUrl, releaseDate, categorie, blogAuthor, blogContent, blogTitle]);
+        await conn.execute('update `blog_info` set `imgUrl`=?,`releaseDate`=?,`category`=?,`blogAuthor`=?,`blogContent`=? where `blogTitle`=?', [imgUrl, releaseDate, category, blogAuthor, blogContent, blogTitle]);
         closeConnection(conn)
     }
     catch (e) {
         console.log(e);
-        throw new Error("更新数据失败")
+        // throw new Error("更新数据失败")
     }
 }
+/**
+ * 
+ * @param {*} blogTitle 
+ * 删除博客
+ */
 async function deleteBlog(blogTitle) {
     const conn = await getMysqlConnection()
     try {
@@ -96,9 +106,44 @@ async function deleteBlog(blogTitle) {
     }
     catch (e) {
         console.log(e);
-        throw new Error("删除数据失败")
+        // throw new Error("删除数据失败")
     }
 
+}
+/**
+ * 
+ * @param {*} category blog目录
+ * @returns 对应分类的博客信息
+ * 分页查询分类获取博客
+ */
+async function getBlogByCategory(category, pageNum, pageSize) {
+    const conn = await getMysqlConnection()
+    const [rows, fields] = await conn.execute('select * from `blog_info` where `category`=? limit ?,?', [category, (pageNum - 1) * pageSize, pageSize]);
+    rows.forEach(row => {
+        row.releaseDate = row.releaseDate.toLocaleDateString();
+    });
+    closeConnection(conn)
+    return rows
+}
+/**
+ * 获取某分类博客数量
+ * @returns 
+ */
+async function getBlogNumByCategory(category) {
+    const conn = await getMysqlConnection()
+    const [rows, fields] = await conn.execute('select count(*) as totalBlog from `blog_info` where `category`=? ', [category]);
+    closeConnection(conn)
+    return rows[0]
+}
+/**
+ * 获取每个分类的博客数量
+ * @returns 分类与分类下博客的数量
+ */
+async function getCategories() {
+    const conn = await getMysqlConnection()
+    const [rows, fields] = await conn.execute('select `category`,count(*) as count from `blog_info` group by `category`');
+    closeConnection(conn)
+    return rows
 }
 module.exports = {
     getBlogInfo,
@@ -106,5 +151,8 @@ module.exports = {
     addBlog,
     updateBlog,
     deleteBlog,
-    getBlogInfoById
+    getBlogInfoById,
+    getBlogByCategory,
+    getCategories,
+    getBlogNumByCategory
 }

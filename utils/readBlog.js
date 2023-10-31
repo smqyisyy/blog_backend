@@ -13,7 +13,7 @@ async function getFileContent(filename) {
     const frontMatter = matter(data);
     // 提取元数据
     const blogAuthor = frontMatter.data.blogAuthor;
-    const categorie = frontMatter.data.categorie;
+    const category = frontMatter.data.category;
     const releaseDate = frontMatter.data.releaseDate;
     const description = frontMatter.data.description;
     const imgUrl = frontMatter.data.imgUrl;
@@ -21,7 +21,7 @@ async function getFileContent(filename) {
     return {
         blogTitle, // 文章标题
         blogAuthor, // 文章作者
-        categorie, // 文章分类
+        category, // 文章分类
         releaseDate, // 文章发布时间
         description, // 文章描述
         imgUrl, // 文章封面图片
@@ -55,7 +55,7 @@ function watchDir(dirPath) {
         .on('unlink', (filePath) => {
             if (path.extname(filePath) === '.md') {
                 deleteBlog(path.basename(filePath, ".md"))
-                
+
                 // 在这里执行文件删除时的操作
             }
         });
