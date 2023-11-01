@@ -1,3 +1,4 @@
+// 此文件主要用于操作blog_info表
 const mysql = require("mysql2/promise")
 // 读取数据库连接的配置文件
 const mysqlConfig = require("../config.json")

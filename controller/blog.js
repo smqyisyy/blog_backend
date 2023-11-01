@@ -1,3 +1,4 @@
+// 本文件主要展示与blog_info表相关的数据接口
 const { getBlogNum, getBlogInfo, getBlogInfoById, getBlogByCategory, getCategories, getBlogNumByCategory } = require('../database/index.js');
 async function showBlogInfo(ctx) {
     const { totalBlog } = await getBlogNum()
