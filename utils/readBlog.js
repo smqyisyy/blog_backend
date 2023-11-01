@@ -40,6 +40,12 @@ function watchDir(dirPath) {
     // 监听文件新增、删除、修改事件
     watcher
         .on('add', async (filePath) => {
+            // 延时一秒后执行，否则当复制一个文件过来时，会导致文件锁定冲突报错退出
+            await new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve()
+                }, 1000)
+            })
             if (path.extname(filePath) === '.md') {
                 // 在这里执行文件新增时的操作
                 const fileInfo = await getFileContent(filePath)

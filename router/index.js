@@ -6,7 +6,7 @@ router.get('/api/blog/info', showBlogInfo);
 router.get('/api/blog/infoById', showBlogInfoById)
 router.get('/api/categories/infoByCategory', showBlogByCategory)
 router.get('/api/categories/info', showCategories)
-router.get('/api/tag/info', showTags)
-router.get('/api/tag/infoByTag', showBlogByTag)
+router.get('/api/tags/info', showTags)
+router.get('/api/tags/infoByTag', showBlogByTag)
 module.exports = router
 

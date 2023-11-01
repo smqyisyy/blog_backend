@@ -1,5 +1,5 @@
 // 本文件主要展示与blog_tag表相关的数据接口
-const { getBlogNumByTag, getTags } = require('../database/blogTag.js');
+const { getBlogByTag, getTags,getBlogNumByTag } = require('../database/blogTag.js');
 async function showBlogByTag(ctx) {
     const { totalBlog } = await getBlogNumByTag(ctx.request.query.tag)
     let pageSize = 6
@@ -10,7 +10,7 @@ async function showBlogByTag(ctx) {
     if (parseInt(ctx.request.query.pageNum)) {
         pageNum = parseInt(ctx.request.query.pageNum)
     }
-    const data = await getBlogNumByTag(ctx.request.query.tag, pageNum, pageSize)
+    const data = await getBlogByTag(ctx.request.query.tag, pageNum, pageSize)
     ctx.body = {
         data,
         totalBlog,
