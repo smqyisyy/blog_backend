@@ -4,7 +4,7 @@ const app = new Koa();
 const { watchDir, mdPath } = require('./utils/readBlog');
 app.use(router.routes())
 
-app.listen(3000, () => {
+app.listen(3000, '0.0.0.0', () => {
     console.log("server listen on http://localhost:3000");
 });
 watchDir(mdPath);
