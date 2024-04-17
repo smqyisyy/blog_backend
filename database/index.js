@@ -31,7 +31,7 @@ function closeConnection(connection) {
  */
 async function getBlogInfo(pageNum, pageSize) {
     const conn = await getMysqlConnection()
-    const [rows, fields] = await conn.execute('select * from `blog_info` limit ?,?', [(pageNum - 1) * pageSize, pageSize]);
+    const [rows, fields] = await conn.execute('select * from `blog_info` order by `releaseDate` desc limit ?,?', [(pageNum - 1) * pageSize, pageSize]);
     rows.forEach(row => {
         row.releaseDate = row.releaseDate.toLocaleDateString();
     });

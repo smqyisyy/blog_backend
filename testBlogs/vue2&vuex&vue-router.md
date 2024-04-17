@@ -1,8 +1,8 @@
 ---
-blogAuthor: "John Doe" 
+blogAuthor: "smqy" 
 category: "前端"
 releaseDate: "2023-10-25"
-imgUrl: "https://img2.baidu.com/it/u=3931907987,2932718337&fm=253&fmt=auto&app=138&f=JPEG?w=600&h=399"
+imgUrl: "https://img.picgo.net/2024/04/07/v2-a3078de690d4a7727fcabc19a53d0651_ra6dc145aceefc3ae.png"
 tags: ["js", "vue"]
 ---
 
