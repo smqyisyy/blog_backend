@@ -1,3 +1,11 @@
+---
+blogAuthor: "smqy"
+category: "linux"
+releaseDate: "2023-07-15"
+description: "KVM虚拟化"
+imgUrl: "/images/kvm.jpg"
+tags: ["linux", "kvm"]
+---
 # 虚拟化技术概述
 
 ## 什么是虚拟化

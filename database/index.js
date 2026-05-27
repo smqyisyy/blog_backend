@@ -155,6 +155,15 @@ async function getBlogInfoByTitle(title = null) {
     closeConnection(conn)
     return rows[0]
 }
+async function getAllBlogsSimple() {
+    const conn = await getMysqlConnection()
+    const [rows] = await conn.execute('select `id`,`blogTitle`,`category`,`releaseDate`,`imgUrl` from `blog_info` order by `releaseDate` desc');
+    rows.forEach(row => {
+        row.releaseDate = row.releaseDate.toLocaleDateString();
+    });
+    closeConnection(conn)
+    return rows
+}
 module.exports = {
     getBlogInfo,
     getBlogNum,
@@ -165,5 +174,6 @@ module.exports = {
     getBlogByCategory,
     getCategories,
     getBlogNumByCategory,
-    getBlogInfoByTitle
+    getBlogInfoByTitle,
+    getAllBlogsSimple
 }

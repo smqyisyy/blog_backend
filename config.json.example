@@ -4,6 +4,8 @@
     "database": "blog",
     "password": "123456",
     "port": "3306",
-     "waitForConnections": true,
-     "connectionLimit":10
+    "waitForConnections": true,
+    "connectionLimit": 10,
+    "adminPassword": "your-admin-password",
+    "jwtSecret": "your-random-secret-string"
 }

@@ -2,7 +2,7 @@
 blogAuthor: "smqy" 
 category: "前端"
 releaseDate: "2023-10-25"
-imgUrl: "https://img.picgo.net/2024/04/07/v2-a3078de690d4a7727fcabc19a53d0651_ra6dc145aceefc3ae.png"
+imgUrl: "/images/vue2.jpg"
 tags: ["js", "vue"]
 ---
 

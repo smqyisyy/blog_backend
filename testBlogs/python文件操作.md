@@ -2,7 +2,7 @@
 blogAuthor: "smqy"
 category: "python"
 releaseDate: "2023-01-13"
-imgUrl: "https://img.picgo.net/2024/04/07/u5152795993638645922fm253fmtautoapp138fJPEGcb2de7b27eb4a3c0.webp"
+imgUrl: "/images/python-file-operation.jpg"
 tags: ["python"]
 ---
 # 文件操作基本流程

@@ -2,7 +2,7 @@
 blogAuthor: "smqy"
 category: "nginx"
 releaseDate: "2024-04-17"
-imgUrl: "https://img.picgo.net/2024/04/17/linux92827227fa21b356.webp"
+imgUrl: "/images/nginx.jpg"
 tags: ["linux","nginx"]
 ---
 # Nginx介绍

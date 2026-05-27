@@ -2,7 +2,7 @@
 blogAuthor: "smqy" 
 category: "前端"
 releaseDate: "2023-10-25"
-imgUrl: "https://img.picgo.net/2024/04/07/6830a53bly1fqnzx6noq3j20fa08ldfyd9a3f4f1ac8bbd47.jpeg"
+imgUrl: "/images/css-property-calc.jpg"
 tags: ["js", "css"]
 ---
 # CSS 属性计算过程

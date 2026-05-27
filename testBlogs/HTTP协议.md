@@ -3,7 +3,7 @@ blogAuthor: "smqy"
 category: "网络"
 releaseDate: "2023-01-13"
 description: "http协议"
-imgUrl: "https://img.picgo.net/2024/04/07/u334080382605458495fm253fmtautoapp120fJPEG218171efec9860b7.webp"
+imgUrl: "/images/http-protocol.jpg"
 tags: ["python", "http"]
 ---
 # HTTP介绍

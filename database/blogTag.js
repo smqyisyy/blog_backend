@@ -66,15 +66,13 @@ async function getTags() {
 async function addBlogTag({ blogTitle, tags }) {
     const conn = await getMysqlConnection()
     try {
-        tags.forEach(async (tag) => {
+        for (const tag of tags) {
             await conn.execute('insert into `blog_tag` (`blogTitle`,`tag`) values(?,?)', [blogTitle, tag]);
-
-        });
+        }
         closeConnection(conn)
     }
     catch (e) {
         console.log(e);
-        // throw new Error("插入数据失败")
     }
 }
 /**
@@ -85,22 +83,14 @@ async function addBlogTag({ blogTitle, tags }) {
 async function updateBlogTag({ blogTitle, tags }) {
     const conn = await getMysqlConnection()
     try {
-        // 更新时将旧的信息删除，直接插入新的信息
         await conn.execute('delete from `blog_tag` where `blogTitle`=?', [blogTitle]);
-        tags.forEach(async (tag) => {
-            // 更新时先判断当前表中是否有这个博客，如果没有，应当先将博客创建
-            // const [rows, fields] = await conn.execute('select count(*) as `count` from `blog_tag` where `blogTitle`=?', [blogTitle]);
-            // if (rows[0].count === 0) {
-            //     await conn.execute('insert into `blog_tag` (`blogTitle`,`tag`) values(?,?)', [blogTitle, tag]);
-            // }
-            // await conn.execute('update `blog_tag` set `tag`=? where `blogTitle`=?', [tag, blogTitle]);
+        for (const tag of tags) {
             await conn.execute('insert into `blog_tag` (`blogTitle`,`tag`) values(?,?)', [blogTitle, tag]);
-            closeConnection(conn)
-        });
+        }
+        closeConnection(conn)
     }
     catch (e) {
         console.log(e);
-        // throw new Error("更新数据失败")
     }
 }
 /**

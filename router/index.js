@@ -1,12 +1,31 @@
 const Router = require('@koa/router');
 const router = new Router();
-const { showBlogInfo, showBlogInfoById, showBlogByCategory, showCategories } = require('../controller/blog.js');
-const { showBlogByTag, showTags } = require('../controller/blogTag.js');
-router.get('/api/blog/info', showBlogInfo);
-router.get('/api/blog/infoById', showBlogInfoById)
-router.get('/api/categories/infoByCategory', showBlogByCategory)
-router.get('/api/categories/info', showCategories)
-router.get('/api/tags/info', showTags)
-router.get('/api/tags/infoByTag', showBlogByTag)
-module.exports = router
+const authMiddleware = require('../middleware/auth');
 
+// 公开路由
+const { showBlogInfo, showBlogInfoById, showBlogByCategory, showCategories } = require('../controller/blog');
+const { showBlogByTag, showTags } = require('../controller/blogTag');
+router.get('/api/blog/info', showBlogInfo);
+router.get('/api/blog/infoById', showBlogInfoById);
+router.get('/api/categories/infoByCategory', showBlogByCategory);
+router.get('/api/categories/info', showCategories);
+router.get('/api/tags/info', showTags);
+router.get('/api/tags/infoByTag', showBlogByTag);
+
+// 登录
+const { login } = require('../controller/auth');
+router.post('/api/admin/login', login);
+
+// admin 路由
+const { createBlog, updateBlogByTitle, deleteBlogByTitle, getBlogByTitle, listBlogs } = require('../controller/admin');
+const { uploadImage, uploadMd, imageUpload, mdUpload } = require('../controller/upload');
+
+router.post('/api/admin/blog', authMiddleware, createBlog);
+router.put('/api/admin/blog', authMiddleware, updateBlogByTitle);
+router.del('/api/admin/blog/:blogTitle', authMiddleware, deleteBlogByTitle);
+router.get('/api/admin/blog/byTitle', authMiddleware, getBlogByTitle);
+router.get('/api/admin/blogs', authMiddleware, listBlogs);
+router.post('/api/admin/upload/image', authMiddleware, imageUpload.single('file'), uploadImage);
+router.post('/api/admin/upload/md', authMiddleware, mdUpload.single('file'), uploadMd);
+
+module.exports = router;

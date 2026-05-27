@@ -16,7 +16,7 @@ async function getFileContent(filename) {
     const blogAuthor = frontMatter.data.blogAuthor || "无名";
     const category = frontMatter.data.category || "无分类";
     const releaseDate = frontMatter.data.releaseDate || new Date().toLocaleDateString();
-    const imgUrl = frontMatter.data.imgUrl || "https://img2.baidu.com/it/u=3931907987,2932718337&fm=253&fmt=auto&app=138&f=JPEG?w=600&h=399";
+    const imgUrl = frontMatter.data.imgUrl || "/images/default-cover.jpg";
     const tags = frontMatter.data.tags || [];
     const blogContent = frontMatter.content || "无内容";
     return {
