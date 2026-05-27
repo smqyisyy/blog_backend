@@ -67,10 +67,10 @@ async function getBlogNum() {
  * @param {*} param
  * 插入一篇博客
  */
-async function addBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor, blogContent }) {
+async function addBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor, description, blogContent }) {
     const conn = await getMysqlConnection()
     try {
-        await conn.execute('insert into `blog_info` (`blogTitle`,`imgUrl`,`releaseDate`,`category`,`blogAuthor`,`blogContent`) values(?,?,?,?,?,?)', [blogTitle, imgUrl, releaseDate, category, blogAuthor, blogContent]);
+        await conn.execute('insert into `blog_info` (`blogTitle`,`imgUrl`,`releaseDate`,`category`,`blogAuthor`,`description`,`blogContent`) values(?,?,?,?,?,?,?)', [blogTitle, imgUrl, releaseDate, category, blogAuthor, description || '', blogContent]);
         closeConnection(conn)
     }
     catch (e) {
@@ -83,10 +83,10 @@ async function addBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor, b
  * @param {*} param
  * 更新博客
  */
-async function updateBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor, blogContent }) {
+async function updateBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor, description, blogContent }) {
     const conn = await getMysqlConnection()
     try {
-        await conn.execute('update `blog_info` set `imgUrl`=?,`releaseDate`=?,`category`=?,`blogAuthor`=?,`blogContent`=? where `blogTitle`=?', [imgUrl, releaseDate, category, blogAuthor, blogContent, blogTitle]);
+        await conn.execute('update `blog_info` set `imgUrl`=?,`releaseDate`=?,`category`=?,`blogAuthor`=?,`description`=?,`blogContent`=? where `blogTitle`=?', [imgUrl, releaseDate, category, blogAuthor, description || '', blogContent, blogTitle]);
         closeConnection(conn)
     }
     catch (e) {
@@ -157,7 +157,7 @@ async function getBlogInfoByTitle(title = null) {
 }
 async function getAllBlogsSimple() {
     const conn = await getMysqlConnection()
-    const [rows] = await conn.execute('select `id`,`blogTitle`,`category`,`releaseDate`,`imgUrl` from `blog_info` order by `releaseDate` desc');
+    const [rows] = await conn.execute('select `id`,`blogTitle`,`category`,`releaseDate`,`imgUrl`,`description` from `blog_info` order by `releaseDate` desc');
     rows.forEach(row => {
         row.releaseDate = row.releaseDate.toLocaleDateString();
     });

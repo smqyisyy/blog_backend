@@ -73,6 +73,7 @@ async function uploadMd(ctx) {
             category: frontMatter.data.category || "无分类",
             releaseDate: frontMatter.data.releaseDate || new Date().toLocaleDateString(),
             imgUrl: frontMatter.data.imgUrl || "/images/default-cover.jpg",
+            description: frontMatter.data.description || "",
             tags: frontMatter.data.tags || [],
             blogContent: frontMatter.content || "无内容"
         };

@@ -17,6 +17,7 @@ async function getFileContent(filename) {
     const category = frontMatter.data.category || "无分类";
     const releaseDate = frontMatter.data.releaseDate || new Date().toLocaleDateString();
     const imgUrl = frontMatter.data.imgUrl || "/images/default-cover.jpg";
+    const description = frontMatter.data.description || "";
     const tags = frontMatter.data.tags || [];
     const blogContent = frontMatter.content || "无内容";
     return {
@@ -25,6 +26,7 @@ async function getFileContent(filename) {
         category, // 文章分类
         releaseDate, // 文章发布时间
         imgUrl, // 文章封面图片
+        description, // 文章描述
         tags, // 文章标签
         blogContent // 文章内容
     }
