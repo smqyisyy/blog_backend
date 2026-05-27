@@ -19,6 +19,7 @@
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.1",
     "koa-compress": "^5.2.1",
+    "koa-mount": "^4.2.0",
     "koa-static": "^5.0.0",
     "multer": "^2.1.1",
     "mysql2": "^3.6.0",

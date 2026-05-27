@@ -35,6 +35,9 @@ importers:
       koa-compress:
         specifier: ^5.2.1
         version: 5.2.1
+      koa-mount:
+        specifier: ^4.2.0
+        version: 4.2.0
       koa-static:
         specifier: ^5.0.0
         version: 5.0.0
@@ -419,6 +422,10 @@ packages:
 
   koa-is-json@1.0.0:
     resolution: {integrity: sha512-+97CtHAlWDx0ndt0J8y3P12EWLwTLMXIfMnYDev3wOTwH/RpBGMlfn4bDXlMEg1u73K6XRE9BbUp+5ZAYoRYWw==}
+
+  koa-mount@4.2.0:
+    resolution: {integrity: sha512-2iHQc7vbA9qLeVq5gKAYh3m5DOMMlMfIKjW/REPAS18Mf63daCJHHVXY9nbu7ivrnYn5PiPC4CE523Tf5qvjeQ==}
+    engines: {node: '>= 7.6.0'}
 
   koa-send@5.0.1:
     resolution: {integrity: sha512-tmcyQ/wXXuxpDxyNXv5yNNkdAMdFRqwtegBXUaowiQzUKqJehttS0x2j0eOZDQAyloAth5w6wwBImnFzkUz3pQ==}
@@ -1093,6 +1100,13 @@ snapshots:
       koa-compose: 4.1.0
 
   koa-is-json@1.0.0: {}
+
+  koa-mount@4.2.0:
+    dependencies:
+      debug: 4.3.4
+      koa-compose: 4.1.0
+    transitivePeerDependencies:
+      - supports-color
 
   koa-send@5.0.1:
     dependencies:

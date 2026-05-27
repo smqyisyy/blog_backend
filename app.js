@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const serve = require('koa-static');
+const mount = require('koa-mount');
 const path = require('path');
 const cors = require('@koa/cors');
 const bodyParser = require('koa-bodyparser');
@@ -21,7 +22,7 @@ app.use(async (ctx, next) => {
 app.use(cors());
 app.use(compress({ threshold: 1024 }));
 app.use(bodyParser({ enableTypes: ['json', 'form'] }));
-app.use(serve(path.join(__dirname, 'images'), { maxage: 86400000 }));
+app.use(mount('/images', serve(path.join(__dirname, 'images'), { maxage: 86400000 })));
 app.use(router.routes())
 
 app.listen(3000, '0.0.0.0', () => {
