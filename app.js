@@ -9,7 +9,7 @@ const { watchDir, mdPath } = require('./utils/readBlog');
 
 app.use(cors());
 app.use(bodyParser({ enableTypes: ['json', 'form'] }));
-app.use(serve(path.join(__dirname, 'images')));
+app.use(serve(path.join(__dirname)));
 app.use(router.routes())
 
 app.listen(3000, '0.0.0.0', () => {
