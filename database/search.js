@@ -20,7 +20,7 @@ async function searchBlog(keyword, pageNum, pageSize) {
     const conn = await getMysqlConnection()
     try {
         const [rows] = await conn.execute(
-            'select * from `blog_info` where MATCH(`blogTitle`,`description`,`blogContent`) AGAINST(? IN NATURAL LANGUAGE MODE) order by `releaseDate` desc limit ?,?',
+            'select * from `blog_info` where MATCH(`blogTitle`,`description`,`blogContent`) AGAINST(? IN BOOLEAN MODE) order by `releaseDate` desc limit ?,?',
             [keyword, (pageNum - 1) * pageSize, pageSize]
         );
         rows.forEach(row => {
@@ -39,7 +39,7 @@ async function searchBlogCount(keyword) {
     const conn = await getMysqlConnection()
     try {
         const [rows] = await conn.execute(
-            'select count(*) as totalBlog from `blog_info` where MATCH(`blogTitle`,`description`,`blogContent`) AGAINST(? IN NATURAL LANGUAGE MODE)',
+            'select count(*) as totalBlog from `blog_info` where MATCH(`blogTitle`,`description`,`blogContent`) AGAINST(? IN BOOLEAN MODE)',
             [keyword]
         );
         closeConnection(conn)
