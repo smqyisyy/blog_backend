@@ -18,8 +18,11 @@
     "jsonwebtoken": "^9.0.3",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.1",
+    "koa-compress": "^5.2.1",
     "koa-static": "^5.0.0",
     "multer": "^2.1.1",
-    "mysql2": "^3.6.0"
+    "mysql2": "^3.6.0",
+    "pino": "^10.3.1",
+    "pino-pretty": "^13.1.3"
   }
 }

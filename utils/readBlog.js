@@ -1,6 +1,7 @@
 const fs = require('fs/promises');
 const chokidar = require('chokidar');
 const path = require('path');
+const logger = require('./logger');
 const mdPath = path.join(__dirname, "../testBlogs")
 const matter = require('gray-matter'); // 使用 gray-matter 包来解析 YAML 前置信息块
 // 操作数据库
@@ -71,10 +72,10 @@ function watchDir(dirPath) {
             }
         });
     watcher.on('error', (error) => {
-        console.error(`发生错误: ${error}`);
+        logger.error({ err: error }, 'watcher error');
     });
 
-    console.log(`正在监听目录: ${dirPath}`);
+    logger.info(`正在监听目录: ${dirPath}`);
 }
 module.exports = {
     watchDir,

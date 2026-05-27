@@ -30,14 +30,16 @@ const imageUpload = multer({
 const mdStorage = multer.diskStorage({
     destination: path.join(__dirname, '../testBlogs'),
     filename(ctx, file, cb) {
-        cb(null, file.originalname);
+        cb(null, path.basename(file.originalname));
     }
 });
 
 const mdUpload = multer({
     storage: mdStorage,
     fileFilter(ctx, file, cb) {
-        if (path.extname(file.originalname).toLowerCase() === '.md') {
+        const ext = path.extname(file.originalname).toLowerCase();
+        const basename = path.basename(file.originalname);
+        if (ext === '.md' && !basename.startsWith('.')) {
             cb(null, true);
         } else {
             cb(new Error('只允许上传 .md 文件'), false);

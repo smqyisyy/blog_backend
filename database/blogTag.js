@@ -1,5 +1,6 @@
 // 此文件主要用于操作文件标签表
 const mysql = require("mysql2/promise")
+const logger = require("../utils/logger")
 // 读取数据库连接的配置文件
 const mysqlConfig = require("../config.json")
 const { getBlogInfoByTitle } = require('./index.js');
@@ -18,10 +19,10 @@ async function getMysqlConnection() {
 function closeConnection(connection) {
     connection.release((endErr) => {
         if (endErr) {
-            console.error('Error closing database connection: ', endErr);
+            logger.error({ err: endErr }, 'Error closing database connection');
             return;
         }
-        console.log('Database connection closed');
+        logger.info('Database connection closed');
     });
 }
 /**
@@ -72,11 +73,11 @@ async function addBlogTag({ blogTitle, tags }) {
         closeConnection(conn)
     }
     catch (e) {
-        console.log(e);
+        logger.error({ err: e }, 'addBlogTag failed');
     }
 }
 /**
- * 
+ *
  * @param {*} param
  * 更新标签相关的博客
  */
@@ -90,12 +91,12 @@ async function updateBlogTag({ blogTitle, tags }) {
         closeConnection(conn)
     }
     catch (e) {
-        console.log(e);
+        logger.error({ err: e }, 'updateBlogTag failed');
     }
 }
 /**
- * 
- * @param {*} blogTitle 
+ *
+ * @param {*} blogTitle
  * 从标签表删除博客
  */
 async function deleteBlogTag(blogTitle) {
@@ -105,7 +106,7 @@ async function deleteBlogTag(blogTitle) {
         closeConnection(conn)
     }
     catch (e) {
-        console.log(e);
+        logger.error({ err: e }, 'deleteBlogTag failed');
         // throw new Error("删除数据失败")
     }
 

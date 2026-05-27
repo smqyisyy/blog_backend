@@ -1,5 +1,6 @@
 // 此文件主要用于操作blog_info表
 const mysql = require("mysql2/promise")
+const logger = require("../utils/logger")
 // 读取数据库连接的配置文件
 const mysqlConfig = require("../config.json")
 // 单例模式
@@ -17,10 +18,10 @@ async function getMysqlConnection() {
 function closeConnection(connection) {
     connection.release((endErr) => {
         if (endErr) {
-            console.error('Error closing database connection: ', endErr);
+            logger.error({ err: endErr }, 'Error closing database connection');
             return;
         }
-        console.log('Database connection closed');
+        logger.info('Database connection closed');
     });
 }
 /**
@@ -74,12 +75,11 @@ async function addBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor, d
         closeConnection(conn)
     }
     catch (e) {
-        console.log(e);
-        // throw new Error("插入数据失败")
+        logger.error({ err: e }, 'addBlog failed');
     }
 }
 /**
- * 
+ *
  * @param {*} param
  * 更新博客
  */
@@ -90,13 +90,12 @@ async function updateBlog({ blogTitle, imgUrl, releaseDate, category, blogAuthor
         closeConnection(conn)
     }
     catch (e) {
-        console.log(e);
-        // throw new Error("更新数据失败")
+        logger.error({ err: e }, 'updateBlog failed');
     }
 }
 /**
- * 
- * @param {*} blogTitle 
+ *
+ * @param {*} blogTitle
  * 删除博客
  */
 async function deleteBlog(blogTitle) {
@@ -106,8 +105,7 @@ async function deleteBlog(blogTitle) {
         closeConnection(conn)
     }
     catch (e) {
-        console.log(e);
-        // throw new Error("删除数据失败")
+        logger.error({ err: e }, 'deleteBlog failed');
     }
 
 }
