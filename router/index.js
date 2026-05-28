@@ -4,9 +4,9 @@ const authMiddleware = require('../middleware/auth');
 
 // 公开路由
 const { showBlogInfo, showBlogInfoById, showBlogByCategory, showCategories } = require('../controller/blog');
-const { showBlogByTag, showTags } = require('../controller/blogTag');
+const { showBlogByTag, showTags, adminShowTags, renameTag: renameTagFn, deleteTag: deleteTagFn } = require('../controller/blogTag');
 const { search } = require('../controller/search');
-const { listComments, addComment } = require('../controller/comment');
+const { listComments, addComment, listAllComments } = require('../controller/comment');
 router.get('/api/blog/info', showBlogInfo);
 router.get('/api/blog/infoById', showBlogInfoById);
 router.get('/api/blog/search', search);
@@ -34,5 +34,9 @@ router.get('/api/admin/blogs', authMiddleware, listBlogs);
 router.post('/api/admin/upload/image', authMiddleware, imageUpload.single('file'), uploadImage);
 router.post('/api/admin/upload/md', authMiddleware, mdUpload.single('file'), uploadMd);
 router.del('/api/admin/comment/:id', authMiddleware, deleteComment);
+router.get('/api/admin/comments', authMiddleware, listAllComments);
+router.get('/api/admin/tags', authMiddleware, adminShowTags);
+router.put('/api/admin/tag', authMiddleware, renameTagFn);
+router.del('/api/admin/tag/:tag', authMiddleware, deleteTagFn);
 
 module.exports = router;

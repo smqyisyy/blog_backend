@@ -1,4 +1,6 @@
-const { getCommentsByBlogId, addComment, deleteComment } = require('../database/comment.js');
+const { getCommentsByBlogId, addComment, deleteComment, getAllComments } = require('../database/comment.js');
+const { getBlogInfoById } = require('../database/index.js');
+const { sendCommentNotification } = require('../utils/mail');
 
 async function listComments(ctx) {
     const blogId = parseInt(ctx.query.blogId);
@@ -30,6 +32,12 @@ async function addCommentFn(ctx) {
     }
     await addComment({ blogId, nickname, content });
     ctx.body = { message: '评论成功' };
+
+    // 异步发送邮件通知，不阻塞响应
+    getBlogInfoById(blogId).then(blogInfo => {
+        const blogTitle = blogInfo && blogInfo.length > 0 ? blogInfo[0].blogTitle : null;
+        sendCommentNotification({ blogId, blogTitle, nickname, content });
+    }).catch(() => {});
 }
 
 async function deleteCommentFn(ctx) {
@@ -43,4 +51,9 @@ async function deleteCommentFn(ctx) {
     ctx.body = { message: '删除成功' };
 }
 
-module.exports = { listComments, addComment: addCommentFn, deleteComment: deleteCommentFn };
+async function listAllComments(ctx) {
+    const data = await getAllComments();
+    ctx.body = { data };
+}
+
+module.exports = { listComments, addComment: addCommentFn, deleteComment: deleteCommentFn, listAllComments };

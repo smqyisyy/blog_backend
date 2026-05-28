@@ -60,4 +60,22 @@ async function deleteComment(id) {
     }
 }
 
-module.exports = { getCommentsByBlogId, addComment, deleteComment }
+async function getAllComments() {
+    const conn = await getMysqlConnection()
+    try {
+        const [rows] = await conn.execute(
+            'SELECT c.*, b.blogTitle FROM `blog_comment` c LEFT JOIN `blog_info` b ON c.blogId = b.id ORDER BY c.createdAt DESC'
+        );
+        rows.forEach(row => {
+            row.createdAt = row.createdAt.toLocaleString();
+        });
+        closeConnection(conn)
+        return rows
+    } catch (e) {
+        logger.error({ err: e }, 'getAllComments failed');
+        closeConnection(conn)
+        return []
+    }
+}
+
+module.exports = { getCommentsByBlogId, addComment, deleteComment, getAllComments }

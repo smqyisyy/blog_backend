@@ -7,5 +7,10 @@
     "waitForConnections": true,
     "connectionLimit": 10,
     "adminPassword": "your-admin-password",
-    "jwtSecret": "your-random-secret-string"
+    "jwtSecret": "your-random-secret-string",
+    "email": {
+        "user": "your-email@qq.com",
+        "pass": "your-smtp-auth-code",
+        "to": "your-email@qq.com"
+    }
 }

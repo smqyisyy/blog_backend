@@ -111,11 +111,35 @@ async function deleteBlogTag(blogTitle) {
     }
 
 }
+async function renameTag(oldTag, newTag) {
+    const conn = await getMysqlConnection()
+    try {
+        await conn.execute('UPDATE `blog_tag` SET `tag`=? WHERE `tag`=?', [newTag, oldTag]);
+        closeConnection(conn)
+    } catch (e) {
+        logger.error({ err: e }, 'renameTag failed');
+        closeConnection(conn)
+    }
+}
+
+async function deleteTag(tag) {
+    const conn = await getMysqlConnection()
+    try {
+        await conn.execute('DELETE FROM `blog_tag` WHERE `tag`=?', [tag]);
+        closeConnection(conn)
+    } catch (e) {
+        logger.error({ err: e }, 'deleteTag failed');
+        closeConnection(conn)
+    }
+}
+
 module.exports = {
     getBlogByTag,
     getBlogNumByTag,
     getTags,
     addBlogTag,
     updateBlogTag,
-    deleteBlogTag
+    deleteBlogTag,
+    renameTag,
+    deleteTag
 }
