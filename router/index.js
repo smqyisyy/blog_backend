@@ -17,6 +17,11 @@ router.get('/api/tags/infoByTag', showBlogByTag);
 router.get('/api/comment/list', listComments);
 router.post('/api/comment/add', addComment);
 
+// 点赞
+const { getLike, like } = require('../controller/like');
+router.get('/api/like', getLike);
+router.post('/api/like', like);
+
 // 登录
 const { login, changePassword } = require('../controller/auth');
 router.post('/api/admin/login', login);
