@@ -35,12 +35,12 @@ async function getCommentsByBlogId(blogId) {
     }
 }
 
-async function addComment({ blogId, nickname, email, content }) {
+async function addComment({ blogId, nickname, email, content, parentId }) {
     const conn = await getMysqlConnection()
     try {
         await conn.execute(
-            'insert into `blog_comment` (`blogId`,`nickname`,`email`,`content`) values(?,?,?,?)',
-            [blogId, nickname, email || null, content]
+            'insert into `blog_comment` (`blogId`,`nickname`,`email`,`content`,`parentId`) values(?,?,?,?,?)',
+            [blogId, nickname, email || null, content, parentId || null]
         );
         closeConnection(conn)
     } catch (e) {

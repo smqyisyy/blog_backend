@@ -30,7 +30,8 @@ async function addCommentFn(ctx) {
         ctx.body = { message: '评论内容过长' };
         return;
     }
-    await addComment({ blogId, nickname, email, content });
+    const parentId = ctx.request.body.parentId || null;
+    await addComment({ blogId, nickname, email, content, parentId });
     ctx.body = { message: '评论成功' };
 
     // 异步发送邮件通知，不阻塞响应
