@@ -22,7 +22,7 @@ const { login } = require('../controller/auth');
 router.post('/api/admin/login', login);
 
 // admin 路由
-const { createBlog, updateBlogByTitle, deleteBlogByTitle, getBlogByTitle, listBlogs } = require('../controller/admin');
+const { createBlog, updateBlogByTitle, deleteBlogByTitle, getBlogByTitle, listBlogs, getDashboardStats } = require('../controller/admin');
 const { uploadImage, uploadMd, imageUpload, mdUpload } = require('../controller/upload');
 const { deleteComment } = require('../controller/comment');
 
@@ -31,6 +31,7 @@ router.put('/api/admin/blog', authMiddleware, updateBlogByTitle);
 router.del('/api/admin/blog/:blogTitle', authMiddleware, deleteBlogByTitle);
 router.get('/api/admin/blog/byTitle', authMiddleware, getBlogByTitle);
 router.get('/api/admin/blogs', authMiddleware, listBlogs);
+router.get('/api/admin/dashboard', authMiddleware, getDashboardStats);
 router.post('/api/admin/upload/image', authMiddleware, imageUpload.single('file'), uploadImage);
 router.post('/api/admin/upload/md', authMiddleware, mdUpload.single('file'), uploadMd);
 router.del('/api/admin/comment/:id', authMiddleware, deleteComment);

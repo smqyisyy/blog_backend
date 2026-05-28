@@ -1,5 +1,6 @@
 const { addBlog, updateBlog, deleteBlog, getBlogInfoByTitle, getAllBlogsSimple } = require('../database/index.js');
 const { addBlogTag, updateBlogTag, deleteBlogTag } = require('../database/blogTag.js');
+const { getMysqlConnection, closeConnection } = require('../database/index.js');
 
 async function createBlog(ctx) {
     const data = ctx.request.body;
@@ -83,10 +84,32 @@ async function listBlogs(ctx) {
     ctx.body = { data };
 }
 
+async function getDashboardStats(ctx) {
+    const conn = await getMysqlConnection();
+    try {
+        const [blogRows] = await conn.execute('SELECT COUNT(*) as count FROM blog_info');
+        const [commentRows] = await conn.execute('SELECT COUNT(*) as count FROM blog_comment');
+        const [categoryRows] = await conn.execute('SELECT COUNT(DISTINCT category) as count FROM blog_info');
+        const [tagRows] = await conn.execute('SELECT COUNT(DISTINCT tag) as count FROM blog_tag');
+        closeConnection(conn);
+        ctx.body = {
+            blogs: blogRows[0].count,
+            comments: commentRows[0].count,
+            categories: categoryRows[0].count,
+            tags: tagRows[0].count
+        };
+    } catch (e) {
+        closeConnection(conn);
+        ctx.status = 500;
+        ctx.body = { message: '获取统计失败' };
+    }
+}
+
 module.exports = {
     createBlog,
     updateBlogByTitle,
     deleteBlogByTitle,
     getBlogByTitle,
-    listBlogs
+    listBlogs,
+    getDashboardStats
 };

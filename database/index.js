@@ -173,5 +173,7 @@ module.exports = {
     getCategories,
     getBlogNumByCategory,
     getBlogInfoByTitle,
-    getAllBlogsSimple
+    getAllBlogsSimple,
+    getMysqlConnection,
+    closeConnection
 }
