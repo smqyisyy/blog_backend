@@ -18,8 +18,9 @@ router.get('/api/comment/list', listComments);
 router.post('/api/comment/add', addComment);
 
 // 登录
-const { login } = require('../controller/auth');
+const { login, changePassword } = require('../controller/auth');
 router.post('/api/admin/login', login);
+router.put('/api/admin/password', authMiddleware, changePassword);
 
 // admin 路由
 const { createBlog, updateBlogByTitle, deleteBlogByTitle, getBlogByTitle, listBlogs, getDashboardStats } = require('../controller/admin');
