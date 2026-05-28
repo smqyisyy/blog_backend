@@ -14,7 +14,7 @@ async function listComments(ctx) {
 }
 
 async function addCommentFn(ctx) {
-    const { blogId, nickname, content } = ctx.request.body;
+    const { blogId, nickname, email, content } = ctx.request.body;
     if (!blogId || !nickname || !content) {
         ctx.status = 400;
         ctx.body = { message: '缺少必要参数' };
@@ -30,7 +30,7 @@ async function addCommentFn(ctx) {
         ctx.body = { message: '评论内容过长' };
         return;
     }
-    await addComment({ blogId, nickname, content });
+    await addComment({ blogId, nickname, email, content });
     ctx.body = { message: '评论成功' };
 
     // 异步发送邮件通知，不阻塞响应
