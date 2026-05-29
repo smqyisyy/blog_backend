@@ -22,6 +22,12 @@ const { getLike, like } = require('../controller/like');
 router.get('/api/like', getLike);
 router.post('/api/like', like);
 
+// 访问统计
+const { trackVisit, getViews, getVisitStats } = require('../controller/visit');
+router.post('/api/visit/track', trackVisit);
+router.get('/api/visit/views', getViews);
+router.get('/api/admin/visit/stats', authMiddleware, getVisitStats);
+
 // 登录
 const { login, changePassword } = require('../controller/auth');
 router.post('/api/admin/login', login);
