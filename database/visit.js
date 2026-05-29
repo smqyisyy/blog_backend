@@ -1,6 +1,7 @@
 const mysql = require("mysql2/promise")
 const logger = require("../utils/logger")
 const mysqlConfig = require("../config.json")
+const { queryIpLocation } = require("../utils/ipLocation")
 const pool = mysql.createPool(mysqlConfig)
 
 async function getMysqlConnection() {
@@ -21,9 +22,11 @@ function closeConnection(connection) {
 async function logVisit({ blogId, ip, path }) {
     const conn = await getMysqlConnection()
     try {
+        // 异步查询IP地理位置
+        const location = await queryIpLocation(ip)
         await conn.execute(
-            'INSERT INTO `blog_visit` (`blogId`, `ip`, `path`) VALUES (?, ?, ?)',
-            [blogId || null, ip, path]
+            'INSERT INTO `blog_visit` (`blogId`, `ip`, `path`, `province`, `city`) VALUES (?, ?, ?, ?, ?)',
+            [blogId || null, ip, path, location.province, location.city]
         );
         // 如果是文章访问，增加文章阅读量
         if (blogId) {
@@ -138,6 +141,50 @@ async function getArticleViews(blogId) {
     }
 }
 
+// 获取地区分布（按省份统计）
+async function getRegionDistribution(limit = 15) {
+    const conn = await getMysqlConnection()
+    try {
+        const [rows] = await conn.execute(
+            `SELECT province, COUNT(*) as count
+             FROM blog_visit
+             WHERE province IS NOT NULL AND province != ''
+             GROUP BY province
+             ORDER BY count DESC
+             LIMIT ?`,
+            [limit]
+        );
+        closeConnection(conn)
+        return rows
+    } catch (e) {
+        logger.error({ err: e }, 'getRegionDistribution failed');
+        closeConnection(conn)
+        return []
+    }
+}
+
+// 获取城市分布（按城市统计）
+async function getCityDistribution(limit = 15) {
+    const conn = await getMysqlConnection()
+    try {
+        const [rows] = await conn.execute(
+            `SELECT city, province, COUNT(*) as count
+             FROM blog_visit
+             WHERE city IS NOT NULL AND city != ''
+             GROUP BY city, province
+             ORDER BY count DESC
+             LIMIT ?`,
+            [limit]
+        );
+        closeConnection(conn)
+        return rows
+    } catch (e) {
+        logger.error({ err: e }, 'getCityDistribution failed');
+        closeConnection(conn)
+        return []
+    }
+}
+
 module.exports = {
     logVisit,
     getTotalVisits,
@@ -145,5 +192,7 @@ module.exports = {
     getTodayVisits,
     getDailyVisits,
     getTopArticles,
-    getArticleViews
+    getArticleViews,
+    getRegionDistribution,
+    getCityDistribution
 }

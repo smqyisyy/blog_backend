@@ -5,7 +5,9 @@ const {
     getTodayVisits,
     getDailyVisits,
     getTopArticles,
-    getArticleViews
+    getArticleViews,
+    getRegionDistribution,
+    getCityDistribution
 } = require('../database/visit');
 
 // 记录访问（公开API，前端调用）
@@ -31,19 +33,23 @@ async function getViews(ctx) {
 // 获取后台统计数据（管理员API）
 async function getVisitStats(ctx) {
     const days = parseInt(ctx.query.days) || 7;
-    const [totalVisits, uniqueVisitors, todayVisits, dailyVisits, topArticles] = await Promise.all([
+    const [totalVisits, uniqueVisitors, todayVisits, dailyVisits, topArticles, regions, cities] = await Promise.all([
         getTotalVisits(),
         getUniqueVisitors(),
         getTodayVisits(),
         getDailyVisits(days),
-        getTopArticles(10)
+        getTopArticles(10),
+        getRegionDistribution(15),
+        getCityDistribution(15)
     ]);
     ctx.body = {
         totalVisits,
         uniqueVisitors,
         todayVisits,
         dailyVisits,
-        topArticles
+        topArticles,
+        regions,
+        cities
     };
 }
 
